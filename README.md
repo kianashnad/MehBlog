@@ -11,7 +11,7 @@ Todo => Complete this section
 want more features? Contact me on Telegram or Instagram by @KianAshnad
 
 # Support me
-Living a live, is expensive, help me focuse on my open-source projects.
+Living a life, is expensive, help me focuse on my open-source projects.
 
 you can support me directly:
 

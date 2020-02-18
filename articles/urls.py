@@ -1,6 +1,6 @@
 from django.urls import path
 
-from rest_api.views import ArticleViewSet
+from articles.views import ArticleViewSet
 
 article_list = ArticleViewSet.as_view({
     'get': 'list'})
