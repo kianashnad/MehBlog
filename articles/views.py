@@ -13,20 +13,22 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
-def toggle_like(request, article_id):
+def toggle_like(request, pk):
     from django.shortcuts import get_object_or_404
     from articles.models import Like
     from rest_framework.response import Response
 
-    article = get_object_or_404(Article, pk=article_id)
-    liked = Like.objects.filter(sender=request.user, article=article)
+    article = get_object_or_404(Article, pk=pk)
+    liked = Like.objects.filter(article=article, sender=request.user).first()
 
-    if len(liked) == 0:
+    if liked is None:
         article.amount_like += 1
+        article.save()
         Like(sender=request.user, article=article).save()
         return Response({"message": "success"}, status=200)
 
     else:
         article.amount_like -= 1
-        liked[0].delete()
+        article.save()
+        liked.delete()
         return Response({"message": "success"}, status=200)

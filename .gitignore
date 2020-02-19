@@ -1,6 +1,7 @@
 venv
 /db.sqlite3
 /articles/migrations/
+/.idea/
 
 # Created by https://www.gitignore.io/api/django,python,pycharm
 # Edit at https://www.gitignore.io/?templates=django,python,pycharm
