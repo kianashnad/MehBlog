@@ -8,7 +8,7 @@ One day I got bored, 😂 and told myself "why don't you work on an Open-Source 
 Todo => Complete this section
 
 # Todo-list
-- [ ] Add Google authentication
+- [x] Add Google authentication
 - [ ] Add Comment functionality
 - [x] Add Like functionality
 
