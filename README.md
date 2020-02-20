@@ -1,9 +1,7 @@
+#Story behind this project
 ![Generic badge](https://img.shields.io/badge/Language-python-yellow.svg) ![Generic badge](https://img.shields.io/badge/Framework-Django-green.svg)
 <div style="text-align: center;"><img src="https://github.com/kianashnad/MehBlog/blob/master/MehblogGithubPoster.png" alt="cover">
 </div>
-<br>
-
-#Story behind this project
 
 One day I got bored, 😂 and told myself "why don't you work on an Open-Source project?". That's all. Nothing exciting, no miracles, no angels.
 
