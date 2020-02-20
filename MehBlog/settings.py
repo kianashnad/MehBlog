@@ -36,18 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # This one is added because Django-Alluth docs says it's required
-    'django.contrib.sites',
-
     'articles.apps.ArticlesConfig',
 
     # 3rd-party apps
     'rest_framework',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
 ]
 
 MIDDLEWARE = [
@@ -65,8 +60,7 @@ ROOT_URLCONF = 'MehBlog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,21 +68,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
-                # This one is added because Django-Alluth docs says it's required
-                'django.template.context_processors.request',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
-
-AUTHENTICATION_BACKENDS = (
-    # Needed to login by username in Django admin, regardless of `allauth`
-    # 'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
 
 WSGI_APPLICATION = 'MehBlog.wsgi.application'
 
@@ -131,29 +116,31 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'like': '200/day'
+    },
+
+    'DEFAULT_AUTHENTICATION_CLASSES': {
+        # 'oauth2_provider.ext.rest_framework.OAuth2Authentication',  # django-oauth-toolkit < 1.0.0
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
     }
 }
 
-SITE_ID = 1
+AUTHENTICATION_BACKENDS = {
+    # Google OAuth2
+    'social_core.backends.google.GoogleOAuth2',
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'APP': {
-            'client_id': '<your google client_id>',
-            'secret': '<your google secret key>',
-            'key': ''
-        }
-    }
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    # 'django.contrib.auth.backends.ModelBackend',
 }
-# Provider specific settings
-ACCOUNT_EMAIL_REQUIRED = True
+# Google configuration
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '<your app id goes here>'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '<your app secret goes here>'
+
+# Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
